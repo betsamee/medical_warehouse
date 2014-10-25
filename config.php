@@ -1,0 +1,3 @@
+<?php
+    $SERVER_URI = '';
+?>
