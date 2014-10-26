@@ -2,11 +2,10 @@
 <soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
   <m:ingest_file>
     <m:clientId>SamTest</m:clientId>
-    <m:format>HL7v2</m:format>
-    <m:payload>MSH|^~\&|EPIC|EPICADT|SMS|SMSADT|199912271408|CHARRIS|ADT^A04|1817457|D|2.5|
-PID||0493575^^^2^ID 1|454721||DOE^JOHN^^^^|DOE^JOHN^^^^|19480203|M||B|254 MYSTREET AVE^^MYTOWN^OH^44123^USA||(216)123-4567|||M|NON|400003403~1129086|
-NK1||ROE^MARIE^^^^|SPO||(216)123-4567||EC|||||||||||||||||||||||||||
-PV1||O|168 ~219~C~PMA^^^^^^^^^||||277^ALLEN MYLASTNAME^BONNIE^^^^|||||||||| ||2688684|||||||||||||||||||||||||199912271408||||||002376853</m:payload>
+    <m:format>DICOM</m:format>
+    <m:payload><![CDATA[<data>data1</data>
+     <data2>tre</data2>
+       ]]></m:payload>
   </m:ingest_file>
 </soap:Body>
 </soap:Envelope>
