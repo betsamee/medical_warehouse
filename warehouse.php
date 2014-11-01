@@ -1,83 +1,23 @@
 <?php
 include_once 'config.php';
 include_once 'format_classes.php';
-class Format{
-        private $Formatpayload;
-        
-        public function __construct($payload)
-        {
-            $this->Formatpayload = $payload; 
-        }
-        
-        public function getPayload()
-        {
-            return $this->Formatpayload;
-        }
-}
+include_once 'db_classes.php';
+include_once 'SoapService_classes.php';
 
-class HL7v2 extends Format{
+$db_handler = new MySQL_DBHandler($HOST,$PORT,$USER,$PASSWORD);
+$logger = new Logger();
 
-    public function parsePayload()
-    { 
-        return strtolower($this->getPayload());
-    }
-    
-}
-
-class HL7v3 extends Format{
-        
-    public function parsePayload()
-    { 
-        return strtolower($this->getPayload());
-    }
-    
-}
-
-class DICOM extends Format {
-        
-    public function parsePayload()
-    { 
-        return strtolower($this->getPayload());
-    }
-    
-}
-
-class SoapService extends LogicException{
-	public function ingest_file($clientId,$format,$payload)
-	{
-        $fd = fopen('files/'.$clientId."_".$format,'w');
-        
-        if(!$fd)
-            throw new Exception("File processing error");
-        
-        switch($format)
-        {
-            case "HL7v2":
-                $parser = new HL7v2($payload);
-            break;
-            case "HL7v3":
-                $parser = new HL7v3($payload);
-            break;
-            case "DICOM":
-                $parser = new DICOM($payload);
-            break; 
-            default:
-                throw new Exception("Invalid Format");
-            break;
-        }
-        
-        if (!fwrite($fd,$parser->parsePayload()))
-            throw new Exception("File processing error");
-            
-        fclose($fd);
-        
-        return($format." file ingested OK");
-     }
+try{
+    $db_handler->ConnectToDB($DB);
+}catch (exception $e)
+{
+    $logger->log_error($e);
+    exit;
 }
 
 $options = array('uri'=> $SERVER_URI);
 $server = new SoapServer(NULL,$options);
 
-$server->setClass('SoapService');
+$server->setClass('SoapService',$db_handler,$logger);
 $server->handle();
 ?>

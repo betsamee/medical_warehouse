@@ -2,6 +2,7 @@
 <soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
   <m:ingest_file>
     <m:clientId>SamTest</m:clientId>
+    <m:md5>81dc9bdb52d04dc20036dbd8313ed055</m:md5>
     <m:format>DICOM</m:format>
     <m:payload><![CDATA[<data>data1</data>
      <data2>tre</data2>
