@@ -1,0 +1,14 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+<soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
+  <m:ingest_file>
+    <m:clientId>Sam_Test</m:clientId>
+    <m:md5>81dc9bdb52d04dc20036dbd8313ed055</m:md5>
+    <m:format>HL7v2</m:format>
+    <m:payload><![CDATA[MSH|^~\&|HIS|MedCenter|LIS|MedCenter|20060307110114||ORM^O01|MSGID20060307110114|P|2.3
+PID|||12001||Jones^John^^^Mr.||19670824|M|||123 West St.^^Denver^CO^80020^USA|||||||
+PV1||O|OP^PAREG^||||2342^Jones^Bob|||OP|||||||||2|||||||||||||||||||||||||20060307110111|
+ORC|NW|20060307110114
+OBR|1|20060307110114||003038^Urinalysis^L|||20060307110114]]></m:payload>
+  </m:ingest_file>
+</soap:Body>
+</soap:Envelope>
