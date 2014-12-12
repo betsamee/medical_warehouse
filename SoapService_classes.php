@@ -30,7 +30,16 @@ class SoapService extends LogicException{
     
     public function check_client($clientId,$md5)
     {
-        return 1;
+        $statement = "SELECT Count(*) FROM Clients
+                        WHERE CLT_ExternalId = '".$this->_db_handle->EscapeStrings($clientId)."'
+                        AND CLT_MD5 = '".$this->_db_handle->EscapeStrings($md5)."'";
+           
+        $count = $this->_db_handle->CountDB($statement);             
+        
+        if( $count == 1)
+            return 1;
+        else 
+            throw new Exception("Unauthorized".$count);
     }
     
     public function ingest_file($clientId,$md5,$format,$payload)
@@ -65,6 +74,7 @@ class SoapService extends LogicException{
         
             
         $this->_parsed_buffer = $parser->parsePayload();
+
         
         try
         {
@@ -72,8 +82,8 @@ class SoapService extends LogicException{
             $statement = "INSERT INTO Ingests(ING_ClientId,ING_FormatId,ING_Payload)
                                     SELECT CLT_id, FRM_Id , \"".$this->_db_handle->EscapeStrings($this->_parsed_buffer)."\"
                                     FROM Clients, Formats
-                                    WHERE CLT_ExternalId = '".$clientId."'
-                                    AND FRM_Name = '".$format."'
+                                    WHERE CLT_ExternalId = '".$this->_db_handle->EscapeStrings($clientId)."'
+                                    AND FRM_Name = '".$this->_db_handle->EscapeStrings($format)."'
                                     LIMIT 1 ;";
                                     
             if($this->_db_handle->InsertDB($statement) != 1)

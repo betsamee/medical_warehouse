@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<report type="Basic Text SR">
+<sopclass uid="1.2.840.10008.5.1.4.1.1.88.11">BasicTextSRStorage</sopclass>
+<modality>SR</modality>
+<referringphysician>
+<name>
+<first>Katherine M.</first>
+<last>Fukuda</last>
+<suffix>M. D.</suffix>
+</name>
+</referringphysician>
+<patient>
+<name>
+<first>Phillip</first>
+<middle>B.</middle>
+<last>Osterman</last>
+</name>
+<birthday>
+<date>1922-09-09</date>
+</birthday>
+<sex>M</sex>
+</patient>
+<study uid="1.2.276.0.7230010.3.1.2.1787205428.166.1117461927.21">
+<description>OFFIS Structured Reporting Samples</description>
+</study>
+<series uid="1.2.276.0.7230010.3.1.3.1787205428.166.1117461927.22">
+<number>1</number>
+<description>Basic Text Report</description>
+</series>
+<instance uid="1.2.276.0.7230010.3.1.4.1787205428.166.1117461927.20">
+<number>1</number>
+<creation uid="1.2.276.0.7230010.3.0.3.5.3">
+<date>2005-05-30</date>
+<time>16:05:27</time>
+</creation>
+</instance>
+<coding>
+<scheme designator="99_OFFIS_DCMTK">
+<uid>1.2.276.0.7230010.3.0.0.1</uid>
+<name>OFFIS DCMTK Coding Scheme</name>
+</scheme>
+</coding>
+<document>
+<completion flag="PARTIAL">
+</completion>
+<verification flag="UNVERIFIED">
+</verification>
+<content>
+<date>2005-05-30</date>
+<time>16:05:27</time>
+<container flag="SEPARATE">
+<concept>
+<value>DT.06</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Consultation Report</meaning>
+</concept>
+<pname>
+<relationship>HAS OBS CONTEXT</relationship>
+<concept>
+<value>IHE.04</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Observer Name</meaning>
+</concept>
+<value>
+<first>David M.</first>
+<last>Packer</last>
+<suffix>M. D.</suffix>
+</value>
+</pname>
+<text>
+<relationship>HAS OBS CONTEXT</relationship>
+<concept>
+<value>IHE.05</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Observer Organization Name</meaning>
+</concept>
+<value>Redlands Clinic</value>
+</text>
+<text>
+<relationship>CONTAINS</relationship>
+<concept>
+<value>CODE_01</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Description</meaning>
+</concept>
+<value>This 78-year-old gentleman referred by Dr. Fukuda was also seen by Dr. Mason at the Redlands Clinic. He has been seen in the past by Dr. Klugman.&#10;The patient developed a lesion in the concha of the left external ear. Recent biopsy confirmed this as being a squamous cell carcinoma. The patient has had a few other skin cancers.&#10;Of most significant past history is the fact that this patient has a leukemia that has been treated in standard fashion by Dr. Klugman. The patient was then transferred to the Redlands Clinic and by some experimental protocol which, I guess, includes some sort of lymphocyte electrophoresis, has been placed into remission. He is not currently on any antileukemia drugs and has responded extremely well to his medical management.&#10;On examination, the patient is healthy in general appearance. There is a 1.5 cm lesion on the concha of the ear, which is seen well on photograph of the left external ear. There are numerous soft lymph nodes in both sides of the neck, which I presume are related to his leukemia.</value>
+</text>
+<text>
+<relationship>CONTAINS</relationship>
+<concept>
+<value>CODE_02</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Diagnosis</meaning>
+</concept>
+<value>Squamous cell carcinoma, relatively superficial, involving the skin of the left external ear, which is seen well on photograph of the left external ear.</value>
+</text>
+<text>
+<relationship>CONTAINS</relationship>
+<concept>
+<value>CODE_03</value>
+<scheme>
+<designator>99_OFFIS_DCMTK</designator>
+</scheme>
+<meaning>Treatment</meaning>
+</concept>
+<value>The plan of treatment is as follows: 4500 rad, 15 treatment sessions, using 100 kV radiation.&#10;The reason for treatment, expected acute reaction, and remote possibility of complication was discussed with this patient at some length, and he accepted therapy as outlined.</value>
+</text>
+</container>
+</content>
+</document>
+</report>

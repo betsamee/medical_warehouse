@@ -44,11 +44,19 @@ Class MySQL_DBHandler extends DBHandler{
             throw new Exception("Count Query Error ".$statement.mysqli_error());
     
             if(mysqli_num_rows($results) == 1)
-                return(mysqli_result($results));
-            else {
-                throw new Exception("Count Query Error ".$statement.mysqli_error());
+            {
+                $row = mysqli_fetch_array($results, MYSQLI_BOTH);
+                return($row[0]);
             } 
     
+    }
+    
+    public function SelectDB($statement)
+    {   
+        if(!$results = mysqli_query($this->_dblink,$statement))
+            throw new Exception("Count Query Error ".$statement.mysqli_error());
+    
+        return(mysqli_fetch_array($results, MYSQLI_BOTH));
     }
     
     public function EscapeStrings($buffer)
