@@ -89,7 +89,10 @@ class SoapService extends LogicException{
             if($this->_db_handle->InsertDB($statement) != 1)
             {
                 Throw new Exception("INSERT ERROR : ".$statement." no record inserted");
-             }
+            }
+            
+            $parser->IngestMsg($this->_db_handle->LastInsertedId(),$this->_db_handle);
+            
         }
         catch(exception $e)
         {

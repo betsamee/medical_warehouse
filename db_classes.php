@@ -63,7 +63,17 @@ Class MySQL_DBHandler extends DBHandler{
     {
         return mysqli_real_escape_string($this->_dblink,$buffer);
     }
+ 
+    public function LastInsertedId()
+    {   
+        if(!$lastid = mysqli_insert_id($this->_dblink))
+            throw new Exception("Last Insert Id Error ".mysqli_error());
     
+            return($lastid);
+    
+    }
+       
 }
+
 
 ?>
