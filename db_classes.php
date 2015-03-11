@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Abstract class for DB handling abstraction
+ *
+ * @package default
+ * @author Sam Levy  
+ */
 Abstract Class DBHandler{
     public $_host;
     public $_port;
@@ -14,10 +20,22 @@ Abstract Class DBHandler{
         $this->_user = $user;
         $this->_password = $password;
     }
-}
+}// END
 
+/**
+ * Extension of DBHandler for MySQL DB handling
+ *
+ * @package default
+ * @author Sam Levy  
+ */
 Class MySQL_DBHandler extends DBHandler{
-
+    
+    /**
+     * Connects to the DB
+     *
+     * @return 1 for success -1 for failure
+     * @author samuel levy  
+     */
     public function ConnectToDB($dbname){
        $this->_dbname = $dbname;
        
@@ -29,6 +47,12 @@ Class MySQL_DBHandler extends DBHandler{
         return 1;
     }
     
+    /**
+     * Inserts statement to the DB
+     *
+     * @return number of affected rows
+     * @author samuel levy  
+     */
     public function InsertDB($statement)
     {   
         if(!$results = mysqli_query($this->_dblink,$statement))
@@ -38,6 +62,12 @@ Class MySQL_DBHandler extends DBHandler{
     
     }
     
+    /**
+     * Performs a count statement on the DB
+     *
+     * @return results of the count
+     * @author samuel levy  
+     */
     public function CountDB($statement)
     {   
         if(!$results = mysqli_query($this->_dblink,$statement))
@@ -51,12 +81,18 @@ Class MySQL_DBHandler extends DBHandler{
     
     }
     
+     /**
+     * Performs a SELECT statement on the DB
+     *
+     * @return results SELECT in an associative array form
+     * @author samuel levy  
+     */
     public function SelectDB($statement)
     {   
         if(!$results = mysqli_query($this->_dblink,$statement))
             throw new Exception("Count Query Error ".$statement.mysqli_error());
    
-        $rows = [];
+        $rows = Array();
         
         while($row = mysqli_fetch_array($results,MYSQLI_NUM))
             $rows[] = $row;
@@ -64,11 +100,23 @@ Class MySQL_DBHandler extends DBHandler{
         return($rows);
     }
     
+      /**
+     * Escape strings for SQL query to avoid illegal characters
+     *
+     * @return escaped query
+     * @author samuel levy  
+     */
     public function EscapeStrings($buffer)
     {
         return mysqli_real_escape_string($this->_dblink,$buffer);
     }
  
+    /**
+     * Gives the last inserted id in the DB
+     *
+     * @return last inserted row id
+     * @author samuel levy  
+     */
     public function LastInsertedId()
     {   
         if(!$lastid = mysqli_insert_id($this->_dblink))
@@ -78,7 +126,7 @@ Class MySQL_DBHandler extends DBHandler{
     
     }
        
-}
+} // END
 
 
 ?>

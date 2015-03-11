@@ -1,6 +1,18 @@
 <?php
 
+/**
+ * This class allows to manage logging of the events occuring 
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class Logger{
+    /**
+     * Logs regular event to the log file
+     *
+     * @return void
+     * @author  
+     */
     public function log_event($message)
     {
         $file = fopen("logs/".date("Ymd").".log","a+");
@@ -8,6 +20,12 @@ class Logger{
         fclose($file);
     }
     
+    /**
+     * Logs errors to the log file
+     *
+     * @return void
+     * @author  samuel levy
+     */
     public function log_error($message)
     {
         $file = fopen("logs/".date("Ymd").".log","a+");
@@ -15,7 +33,14 @@ class Logger{
         fclose($file);
     }
 }
+// END
 
+/**
+ * This class manages the ingest Soap Service  
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class SoapService extends LogicException{
         
     private $_db_handle;
@@ -28,6 +53,12 @@ class SoapService extends LogicException{
         $this->_logger = $logger;
     }    
     
+     /**
+     * Basic authentication of the message sender
+     *
+     * @return 1 if client is authenticated
+     * @author  
+     */
     public function check_client($clientId,$md5)
     {
         $statement = "SELECT Count(*) FROM Clients
@@ -42,6 +73,12 @@ class SoapService extends LogicException{
             throw new Exception("Unauthorized".$count);
     }
     
+     /**
+     * Ingests the incoming message to the warehouse
+     *
+     * @return ingest result
+     * @author  
+     */
     public function ingest_file($clientId,$md5,$format,$payload)
     {
         $this->_logger->log_event("New ".$format." message received from ".$clientId);
@@ -104,4 +141,5 @@ class SoapService extends LogicException{
         return($format." file ingest OK");
      }
 }
+// END
 ?>
