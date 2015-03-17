@@ -1,20 +1,57 @@
 <?php
 
-abstract class Format{
-        public $_payload;
+class FormatStrategy{
+        public $_payload = NULL;
+        public $_formatStrategy = NULL;
         
-        public function __construct($payload)
+        public function __construct($payload,$format)
+        {
+            $this->_payload = $payload; 
+            
+            switch($format)
+            {
+                case "HL7v2":
+                    $this->_formatStrategy = new HL7v2($this->_payload);
+                break;
+                case "HL7v3":
+                    $this->_formatStrategy = new HL7v3($this->_payload);
+                break;
+                case "DICOM":
+                    $this->_formatStrategy = new DICOM($this->_payload);
+                break;
+              }
+        }
+        
+        public function parsePayload()
+        {
+            return $this->_formatStrategy->parsePayload();        
+        }
+       
+       public function IngestMsg($ingestId,$db_handle)
+       {
+           return $this->_formatStrategy->IngestMsg($ingestId, $db_handle);
+       }
+}
+
+class Format{
+        public $_payload = NULL;
+ 
+        public function __construct($payload,$format)
         {
             $this->_payload = $payload; 
         }
-        
-        public function getPayload()
-        {
-            return $this->_payload;
-        }
 }
 
-class HL7v2 extends Format{
+interface FormatStrategyInterface
+{    
+    public function parsePayload();
+    public function IngestMsg($ingestId,$db_handle);
+    public function getMessageType();
+    public function IngestSegment($segment,$msg_id,$db_handle);
+    public function IngestFields($fields,$seg_id,$db_handle);    
+}
+
+class HL7v2 extends Format implements FormatStrategyInterface {
 
     public $_exploded_payload;
     public $_ingest_id;
@@ -109,17 +146,22 @@ class HL7v2 extends Format{
     }
 }
 
-class HL7v3 extends Format{
+class HL7v3 extends Format implements FormatStrategyInterface{
         
     public function parsePayload()
     { 
         return strtolower($this->_payload);
     }
     
+    public function IngestMsg($ingestId,$db_handle){}
+    public function getMessageType(){}
+    public function IngestSegment($segment,$msg_id,$db_handle) {}
+    public function IngestFields($fields,$seg_id,$db_handle) {}
+    
 }
 
-class DICOM extends Format {
-        
+class DICOM extends Format implements FormatStrategyInterface {
+             
     public function parsePayload()
     {
         $filename = 'dicom_sr_'.date('YmdHHis').'.tmp';
@@ -136,6 +178,11 @@ class DICOM extends Format {
         
         return $filecontent;
     }
+    
+    public function IngestMsg($ingestId,$db_handle){}
+    public function getMessageType(){}
+    public function IngestSegment($segment,$msg_id,$db_handle) {}
+    public function IngestFields($fields,$seg_id,$db_handle) {}
     
 }
 ?>

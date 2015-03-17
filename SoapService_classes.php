@@ -81,7 +81,7 @@ class SoapService extends LogicException{
      */
     public function ingest_file($clientId,$md5,$format,$payload)
     {
-        $this->_logger->log_event("New ".$format." message received from ".$clientId);
+        $this->_logger->log_event("New ".$format." message received from ".$clientId." ".$payload);
         try
         {
             $this->check_client($clientId,$md5);
@@ -92,23 +92,15 @@ class SoapService extends LogicException{
             return($e);
         }
         
-        switch($format)
+      
+        if($format == "HL7v2" || $format == "HL7v3" || $format == "DICOM")
         {
-            case "HL7v2":
-                $parser = new HL7v2($payload);
-            break;
-            case "HL7v3":
-                $parser = new HL7v3($payload);
-            break;
-            case "DICOM":
-                $parser = new DICOM($payload);
-            break; 
-            default:
-                $this->_logger->log_error("Invalid Format");                
-                return($format." file ingest KO");
-            break;
+            $parser = new FormatStrategy($payload,$format);
         }
-        
+        else {
+            $this->_logger->log_error("Invalid Format");                
+            return($format." file ingest KO");
+        }
             
         $this->_parsed_buffer = $parser->parsePayload();
 

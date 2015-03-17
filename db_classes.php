@@ -87,10 +87,13 @@ Class MySQL_DBHandler extends DBHandler{
      * @return results SELECT in an associative array form
      * @author samuel levy  
      */
-    public function SelectDB($statement)
+    public function SelectDB($statement,$return_num_fields=0)
     {   
         if(!$results = mysqli_query($this->_dblink,$statement))
             throw new Exception("Count Query Error ".$statement.mysqli_error());
+   
+        if($return_num_fields == 1)
+            return(mysqli_num_fields($results));
    
         $rows = Array();
         
