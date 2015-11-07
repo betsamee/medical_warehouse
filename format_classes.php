@@ -19,6 +19,9 @@ class FormatStrategy{
                 case "DICOM":
                     $this->_formatStrategy = new DICOM($this->_payload);
                 break;
+                case "TEXTUAL":
+                    $this->_formatStrategy = new TEXTUAL($this->_payload);
+                break;
               }
         }
         
@@ -181,6 +184,54 @@ class DICOM extends Format implements FormatStrategyInterface {
     
     public function IngestMsg($ingestId,$db_handle){}
     public function getMessageType(){}
+    public function IngestSegment($segment,$msg_id,$db_handle) {}
+    public function IngestFields($fields,$seg_id,$db_handle) {}
+    
+}
+
+class TEXTUAL extends Format implements FormatStrategyInterface {
+             
+    public $_exploded_payload;
+    public $_ingest_id;
+    public $_message_id;
+    
+    public function parsePayload()
+    {
+        //MTI medical semantix analyzer API
+        $MTI_url = 'http://ii.nlm.nih.gov/cgi-bin/II/Interactive/interactiveMTI.pl';
+        $dom = new DOMDocument;
+        $fields = array('InputText' => urlencode($this->_payload));
+
+        $curl_ressource = curl_init();
+        
+        curl_setopt($curl_ressource,CURLOPT_URL, $MTI_url);
+        curl_setopt($curl_ressource,CURLOPT_POST, count($fields));
+        curl_setopt($curl_ressource,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($curl_ressource, CURLOPT_RETURNTRANSFER, true); 
+        
+        // PArses result to extract it
+        $dom->loadHTML(curl_exec($curl_ressource));
+        $pres = $dom->getElementsByTagName('pre');
+        
+        foreach($pres as $pre)
+            if(strstr($pre->nodeValue,"Command: MTI"))
+                {
+                    $array = explode("\n", $pre->nodeValue);
+                    array_shift($array);
+                    array_shift($array);
+                    array_shift($array);
+                    array_shift($array);
+                    $result = implode("\n", $array); 
+                    echo $result;  
+                }
+        
+        curl_close($curl_ressource);
+                 
+        return $result;
+       }
+          
+    public function getMessageType(){}
+    public function IngestMsg($ingestId,$db_handle){}
     public function IngestSegment($segment,$msg_id,$db_handle) {}
     public function IngestFields($fields,$seg_id,$db_handle) {}
     

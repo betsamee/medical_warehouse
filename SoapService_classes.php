@@ -93,7 +93,7 @@ class SoapService extends LogicException{
         }
         
       
-        if($format == "HL7v2" || $format == "HL7v3" || $format == "DICOM")
+        if($format == "HL7v2" || $format == "HL7v3" || $format == "DICOM" || $format == "TEXTUAL")
         {
             $parser = new FormatStrategy($payload,$format);
         }
