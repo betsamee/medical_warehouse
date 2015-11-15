@@ -19,8 +19,11 @@ class FormatStrategy{
                 case "DICOM":
                     $this->_formatStrategy = new DICOM($this->_payload);
                 break;
-                case "TEXTUAL":
-                    $this->_formatStrategy = new TEXTUAL($this->_payload);
+                case "TEXT2UMLS":
+                    $this->_formatStrategy = new TEXT2UMLS($this->_payload);
+                break;
+                case "FREETEXT":
+                    $this->_formatStrategy = new TEXT2UMLS($this->_payload);
                 break;
               }
         }
@@ -36,6 +39,12 @@ class FormatStrategy{
        }
 }
 
+/**
+ * Base class for all the ingestion formats supported
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class Format{
         public $_payload = NULL;
  
@@ -45,6 +54,12 @@ class Format{
         }
 }
 
+/**
+ * Interface used for the ingestion strategies (strategy pattern)
+ *
+ * @package default
+ * @author  samuel levy
+ */
 interface FormatStrategyInterface
 {    
     public function parsePayload();
@@ -54,17 +69,35 @@ interface FormatStrategyInterface
     public function IngestFields($fields,$seg_id,$db_handle);    
 }
 
+/**
+ * This class implements HL7v2 ingestion algorithms 
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class HL7v2 extends Format implements FormatStrategyInterface {
 
     public $_exploded_payload;
     public $_ingest_id;
     public $_message_id;
     
+     /**
+     * parses original payload message
+     *
+     * @return void
+     * @author  
+     */
     public function parsePayload()
     { 
         return $this->_payload;
     }
     
+    /**
+     * returns HL7 message type
+     *
+     * @return string
+     * @author  
+     */
     public function getMessageType()
     {           
         $this->_exploded_payload = explode("\n",$this->_payload);
@@ -80,6 +113,12 @@ class HL7v2 extends Format implements FormatStrategyInterface {
         }
     }
     
+    /**
+     * ingests HL7 message
+     *
+     * @return string
+     * @author  
+     */
     public function IngestMsg($ingestId,$db_handle)
     {
             $msgtype = $this->getMessageType();
@@ -105,6 +144,12 @@ class HL7v2 extends Format implements FormatStrategyInterface {
             }
         }
     
+    /**
+     * ingests segments composing the Hl7 message
+     *
+     * @return string
+     * @author  
+     */
     public function IngestSegment($segment,$msg_id,$db_handle)
     {
             $segment_exploded = explode("|",$segment);
@@ -124,6 +169,12 @@ class HL7v2 extends Format implements FormatStrategyInterface {
             
     }
     
+    /**
+     * ingest fields compposing the HL7 segments
+     *
+     * @return string
+     * @author  
+     */
     public function IngestFields($fields,$seg_id,$db_handle)
     {
         $i = 0;
@@ -149,6 +200,12 @@ class HL7v2 extends Format implements FormatStrategyInterface {
     }
 }
 
+/**
+ * This class implements HL7v3 ingestion algorithms 
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class HL7v3 extends Format implements FormatStrategyInterface{
         
     public function parsePayload()
@@ -163,6 +220,13 @@ class HL7v3 extends Format implements FormatStrategyInterface{
     
 }
 
+
+/**
+ * This class implements DICOM (structured reports) ingestion algorithms 
+ *
+ * @package default
+ * @author  samuel levy
+ */
 class DICOM extends Format implements FormatStrategyInterface {
              
     public function parsePayload()
@@ -189,16 +253,32 @@ class DICOM extends Format implements FormatStrategyInterface {
     
 }
 
-class TEXTUAL extends Format implements FormatStrategyInterface {
+
+
+/**
+ * This class implements TETX2UMLS (free text o UMLS) ingestion algorithms 
+ *
+ * @package default
+ * @author  samuel levy
+ */
+class TEXT2UMLS extends Format implements FormatStrategyInterface {
              
     public $_exploded_payload;
     public $_ingest_id;
     public $_message_id;
+    public $_parsed_payload;
     
+    /**
+     * parses ingested text , uses MTI to translate it into weighted MeSH terms
+     *
+     * @return string
+     * @author  
+     */
     public function parsePayload()
     {
-        //MTI medical semantix analyzer API
+        //MTI medical semantic analyzer API url
         $MTI_url = 'http://ii.nlm.nih.gov/cgi-bin/II/Interactive/interactiveMTI.pl';
+        
         $dom = new DOMDocument;
         $fields = array('InputText' => urlencode($this->_payload));
 
@@ -209,7 +289,7 @@ class TEXTUAL extends Format implements FormatStrategyInterface {
         curl_setopt($curl_ressource,CURLOPT_POSTFIELDS, $fields);
         curl_setopt($curl_ressource, CURLOPT_RETURNTRANSFER, true); 
         
-        // PArses result to extract it
+        // Parses result html to extract 
         $dom->loadHTML(curl_exec($curl_ressource));
         $pres = $dom->getElementsByTagName('pre');
         
@@ -222,8 +302,8 @@ class TEXTUAL extends Format implements FormatStrategyInterface {
                     array_shift($array);
                     array_shift($array);
                     $result = implode("\n", $array); 
-                    echo $result;  
-                }
+                    $this->_parsed_payload = $result; 
+               }
         
         curl_close($curl_ressource);
                  
@@ -231,9 +311,77 @@ class TEXTUAL extends Format implements FormatStrategyInterface {
        }
           
     public function getMessageType(){}
-    public function IngestMsg($ingestId,$db_handle){}
+        
+    /**
+     * ingest the MeSH weighted terms into database
+     *
+     * @return void
+     * @author  
+     */
+    public function IngestMsg($ingestId,$db_handle)
+    {
+            $this->_ingest_id = $ingestId;
+            
+            $array = explode("\n", $this->_parsed_payload);
+           
+	     
+            foreach($array as $entry)
+            {
+		        $line = explode("|", $entry);
+                
+                if($line[1] == "")
+                    continue;
+                
+                $statement = "INSERT INTO Textual_Rows(TXR_IngestId,TXR_Rank,TXR_OriginalText,TXR_Heading,TXR_Score,TXR_HeadingType,TXR_CorrespondingText,TXR_Field,TXR_Path)
+                      VALUES (".$this->_ingest_id.",'".$line[0]."','".$line[1]."','".$line[2]."',".$line[3].",'".$line[4]."','".$line[5]."','".$line[6]."','".$line[7]."');";
+                                    
+                if($db_handle->InsertDB($statement) != 1)
+                {
+                    Throw new Exception("INSERT ERROR : ".$statement." no record inserted");
+                }
+            }
+                
+                
+     }
+        
     public function IngestSegment($segment,$msg_id,$db_handle) {}
     public function IngestFields($fields,$seg_id,$db_handle) {}
     
 }
+
+/**
+ * This class implements free text ingestion 
+ *
+ * @package default
+ * @author  samuel levy
+ */
+class FREETEXT extends Format implements FormatStrategyInterface {
+             
+    public $_exploded_payload;
+    public $_ingest_id;
+    public $_message_id;
+    public $_parsed_payload;
+    
+    /**
+     * ingest the message as Free Text message, without any prior treatment
+     *
+     * @return void
+     * @author  
+     */
+     public function parsePayload()
+    {
+        return($this->_payload);
+    }
+          
+    public function getMessageType(){}
+        
+    
+    public function IngestMsg($ingestId,$db_handle){}
+        
+    public function IngestSegment($segment,$msg_id,$db_handle) {}
+    public function IngestFields($fields,$seg_id,$db_handle) {}
+    
+}
+
+
 ?>

@@ -1,0 +1,13 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+<soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
+  <m:ingest_file>
+    <m:clientId>Sam_Test</m:clientId>
+    <m:md5>81dc9bdb52d04dc20036dbd8313ed055</m:md5>
+    <m:format>HL7v2</m:format>
+    <m:payload><![CDATA[MSH|^~\&||GA0000||MA0000|199705221605||VXQ^V01|19970522GA40|T|2.3.1|||AL
+QRD|199705221605|R|I|19970522GA05|||25^RD|^KENNEDY^JOHN^FITZGERALD^JR|VXI^VACCINE INFORMATION^HL70048|^SIIS
+QRF|MA0000||||256946789~19900607~MA~MA99999999~88888888~KENNEDY^JACQUELINE^LEE~BOUVIER~898666725~KENNEDY^JOHN^FITZGERALD~822546618
+]]></m:payload>
+  </m:ingest_file>
+</soap:Body>
+</soap:Envelope>

@@ -88,7 +88,8 @@ Class MySQL_DBHandler extends DBHandler{
      * @author samuel levy  
      */
     public function SelectDB($statement,$return_num_fields=0)
-    {   
+    {
+           
         if(!$results = mysqli_query($this->_dblink,$statement))
             throw new Exception("Count Query Error ".$statement.mysqli_error());
    
