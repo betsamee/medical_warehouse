@@ -34,6 +34,7 @@ if __name__ == '__main__':
         """ 
         Graph contruction adapted from the code example of Aric Hagberg (hagberg@lanl.gov) in Tutorial for Networkx
         https://networkx.github.io/documentation/latest/examples/drawing/labels_and_colors.html?highlight=position
+        (open source code)
         """
         G=nx.Graph()
        
@@ -58,7 +59,7 @@ if __name__ == '__main__':
         plt.savefig("tmp/"+sys.argv[1]+".png")
        
         """ Cleans the batchId from temporary Result table """ 
-        result = db.queryDB("DELETE FROM Analysis_Results WHERE ANR_DataSetId = "+sys.argv[1])
+        """ result = db.queryDB("DELETE FROM Analysis_Results WHERE ANR_DataSetId = "+sys.argv[1]) """
         
     except _mysql.Error, e:
       

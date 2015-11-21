@@ -103,10 +103,14 @@ class SoapService extends LogicException{
         }
             
         $this->_parsed_buffer = $parser->parsePayload();
-
-        
+  
         try
         {
+                
+            if(strlen($this->_parsed_buffer) == 0 || $this->_parsed_buffer == "")
+            {
+                Throw new Exception("Empty payload ! nothing to ingest");
+            }    
             
             $statement = "INSERT INTO Ingests(ING_ClientId,ING_FormatId,ING_Payload)
                                     SELECT CLT_id, FRM_Id , \"".$this->_db_handle->EscapeStrings($this->_parsed_buffer)."\"

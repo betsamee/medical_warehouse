@@ -33,7 +33,7 @@ class FormatStrategy{
             return $this->_formatStrategy->parsePayload();        
         }
        
-       public function IngestMsg($ingestId,$db_handle)
+        public function IngestMsg($ingestId,$db_handle)
        {
            return $this->_formatStrategy->IngestMsg($ingestId, $db_handle);
        }
@@ -254,7 +254,6 @@ class DICOM extends Format implements FormatStrategyInterface {
 }
 
 
-
 /**
  * This class implements TETX2UMLS (free text o UMLS) ingestion algorithms 
  *
@@ -267,6 +266,7 @@ class TEXT2UMLS extends Format implements FormatStrategyInterface {
     public $_ingest_id;
     public $_message_id;
     public $_parsed_payload;
+ 
     
     /**
      * parses ingested text , uses MTI to translate it into weighted MeSH terms
@@ -276,20 +276,19 @@ class TEXT2UMLS extends Format implements FormatStrategyInterface {
      */
     public function parsePayload()
     {
-        //MTI medical semantic analyzer API url
-        $MTI_url = 'http://ii.nlm.nih.gov/cgi-bin/II/Interactive/interactiveMTI.pl';
-        
+        $_MTI_url = 'http://ii.nlm.nih.gov/cgi-bin/II/Interactive/interactiveMTI.pl';    
         $dom = new DOMDocument;
         $fields = array('InputText' => urlencode($this->_payload));
 
         $curl_ressource = curl_init();
         
-        curl_setopt($curl_ressource,CURLOPT_URL, $MTI_url);
+        curl_setopt($curl_ressource,CURLOPT_URL, $_MTI_url);
         curl_setopt($curl_ressource,CURLOPT_POST, count($fields));
         curl_setopt($curl_ressource,CURLOPT_POSTFIELDS, $fields);
         curl_setopt($curl_ressource, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($curl_ressource, CURLOPT_TIMEOUT, 40);
         
-        // Parses result html to extract 
+        // Parses result html to extract MTI semantical parser results
         $dom->loadHTML(curl_exec($curl_ressource));
         $pres = $dom->getElementsByTagName('pre');
         
