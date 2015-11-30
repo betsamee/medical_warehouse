@@ -9,5 +9,6 @@
  OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
  OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F]]></m:payload>
   </m:ingest_file>
+  <m:batchId>HL7v2TESTS</m:batchId>
 </soap:Body>
 </soap:Envelope>

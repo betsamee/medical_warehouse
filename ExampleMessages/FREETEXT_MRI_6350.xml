@@ -1,0 +1,17 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+                  <soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
+                  <m:ingest_file>
+                    <m:clientId>Sam_Test</m:clientId>
+                    <m:md5>81dc9bdb52d04dc20036dbd8313ed055</m:md5>
+                    <m:format>FREETEXT</m:format>
+                    <m:payload>MRI OF THE CERVICAL SPINE
+
+FINDINGS: AT THE C4-C5 DISC LEVEL THERE IS A 2-3 MM PROTRUSION ABUTTING WITHOUT SIGNIFICANTLY COMPRESSING UPON THE CORD. THERE IS NO CENTRAL CANAL STENOSIS.
+
+THERE ARE MINIMAL (2 MM) DISC BULGES AT THE C5-C6 AND C6-C7 LEVELS WITHOUT CORD COMPRESSION OR CENTRAL CANAL STENOSIS. 
+
+THE CORD IS OF NORMAL MORPHOLOGY WITH NO FOCAL LESIONS EVIDENT. THERE IS MILD DEXTROSCOLIOSIS OF THE THORACIC SPINE. THE REMAINDER OF THE EXAM IS WITHIN NORMAL LIMITS.</m:payload>
+                    <m:batchId>MRISTEXTUAL</m:batchId>
+                  </m:ingest_file>
+                </soap:Body>
+                </soap:Envelope>

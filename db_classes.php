@@ -44,6 +44,10 @@ Class MySQL_DBHandler extends DBHandler{
                 throw new Exception("DB Connection Error 1".mysqli_error());
                 return -1;
             }
+            
+        if(!$results = mysqli_query($this->_dblink,"SET NAMES 'utf8'"))
+            throw new Exception("change to utf8 error ".mysqli_error());
+        
         return 1;
     }
     

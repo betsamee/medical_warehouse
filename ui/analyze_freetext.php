@@ -15,7 +15,7 @@ try{
     $logger->log_error($e);
     exit;
 }
-
+header('Content-type: text/html; charset=utf-8');
 echo "<html><head>
 <link rel='stylesheet' type='text/css' href='style.css'>
 <title>Analysis of free textual data</title></head>";

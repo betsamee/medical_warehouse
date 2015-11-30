@@ -1,0 +1,15 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+                  <soap:Body xmlns:m="http://192.168.163.129/medical_warehouse/warehouse.php">
+                  <m:ingest_file>
+                    <m:clientId>Sam_Test</m:clientId>
+                    <m:md5>81dc9bdb52d04dc20036dbd8313ed055</m:md5>
+                    <m:format>TEXT2UMLS</m:format>
+                    <m:payload>MRI OF THE RIGHT KNEE
+
+THERE IS AN OBLIQUELY ORIENTED TEAR OF THE POSTERIOR HORN OF THE MEDIAL MENISCUS WHICH EXTENDS TO THE INFERIOR ARTICULATING MARGIN.
+THE LATERAL MENISCUS APPEARS INTACT.
+THE LIGAMENTS APPEAR INTACT.
+THERE IS A MODERATE JOINT EFFUSION.</m:payload>
+                  </m:ingest_file>
+                </soap:Body>
+                </soap:Envelope>

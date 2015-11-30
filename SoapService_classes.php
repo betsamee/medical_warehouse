@@ -79,7 +79,7 @@ class SoapService extends LogicException{
      * @return ingest result
      * @author  
      */
-    public function ingest_file($clientId,$md5,$format,$payload)
+    public function ingest_file($clientId,$md5,$format,$payload,$batchId)
     {
         $this->_logger->log_event("New ".$format." message received from ".$clientId." ".$payload);
         try
@@ -112,8 +112,8 @@ class SoapService extends LogicException{
                 Throw new Exception("Empty payload ! nothing to ingest");
             }    
             
-            $statement = "INSERT INTO Ingests(ING_ClientId,ING_FormatId,ING_Payload)
-                                    SELECT CLT_id, FRM_Id , \"".$this->_db_handle->EscapeStrings($this->_parsed_buffer)."\"
+            $statement = "INSERT INTO Ingests(ING_ClientId,ING_FormatId,ING_Payload,ING_BatchId)
+                                    SELECT CLT_id, FRM_Id , \"".$this->_db_handle->EscapeStrings($this->_parsed_buffer)."\", \"".$this->_db_handle->EscapeStrings($batchId)."\"
                                     FROM Clients, Formats
                                     WHERE CLT_ExternalId = '".$this->_db_handle->EscapeStrings($clientId)."'
                                     AND FRM_Name = '".$this->_db_handle->EscapeStrings($format)."'

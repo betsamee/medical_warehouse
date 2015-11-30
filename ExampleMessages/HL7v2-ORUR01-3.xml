@@ -21,5 +21,6 @@ OBX||CE|93000&CMP^^CPT4|11|1305^No significant change was found^MEIECG
 OBX||TX|93000.48^EKG COMMENT^CPT4|12|9917^LASTNAME MD^FIRSTNAME
 OBX||FT|93000^ECG 12-LEAD^CPT4|13|{\rtf1\ansi \deff1\deflang1033\ {\fonttbl{\f1\fmodern\fcharset0 Courier;}{\f2\fmodern\fcharset0 Courier;}} \pard\plain \f1\fs18\par 20Jun2011 17:06\par VENTRICULAR RATE 52\par Sinus bradycardia with 1st degree A-V block\par Otherwise normal ECG\par When compared with ECG of 17-JUN-2011 16:59,\par No significant change was found\par 47507`S`'LASTNAME MD`S`'FIRSTNAME \par }]]></m:payload>
   </m:ingest_file>
+  <m:batchId>HL7v2TESTS</m:batchId>
 </soap:Body>
 </soap:Envelope>

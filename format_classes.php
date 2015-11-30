@@ -23,7 +23,7 @@ class FormatStrategy{
                     $this->_formatStrategy = new TEXT2UMLS($this->_payload);
                 break;
                 case "FREETEXT":
-                    $this->_formatStrategy = new TEXT2UMLS($this->_payload);
+                    $this->_formatStrategy = new FREETEXT($this->_payload);
                 break;
               }
         }

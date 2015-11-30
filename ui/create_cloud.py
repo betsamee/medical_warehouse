@@ -67,7 +67,7 @@ if __name__ == '__main__':
         create_tag_image(tags, 'tmp/cloud_'+ sys.argv[1] +'.png', size=(1024, 800), fontname='Lobster')
         
         """ Cleans the batchId from temporary Result table """ 
-        """ result = db.queryDB("DELETE FROM Analysis_Results WHERE ANR_DataSetId = "+sys.argv[1]) """
+        result = db.queryDB("DELETE FROM Analysis_Results WHERE ANR_DataSetId = "+sys.argv[1])
         
     except _mysql.Error, e:
       

@@ -77,6 +77,7 @@ NK1|1|KENNEDY^J^CILENE|32^MOTHER^HL70063||||||||||||||||||||||||||||||190966725^
 NK1|2|KENNEDY^JACK|33^FATHER^HL70063||||||||||||||||||||||||||||||786118768^^^^SS
 OBX|4|CE|30978-1^Report type^LN||IN^Initial^NIP010|
 ]]></m:payload>
+<m:batchId>HL7v2TESTS</m:batchId>
   </m:ingest_file>
 </soap:Body>
 </soap:Envelope>

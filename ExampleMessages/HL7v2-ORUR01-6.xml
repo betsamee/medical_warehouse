@@ -32,6 +32,7 @@ OBX|8|CE|30955-9&30957-5^ Manufacturer^LN|2|WAL^Wyeth_Ayerst^MVX|
 OBX|9|ST|30955-9&30959-1^Lot number^LN|2|W46932777|
 OBX|10|CE|30955-9&30958-3^ Route^LN|2|IM^Intramuscular^HL70162|
 ]]></m:payload>
+<m:batchId>HL7v2TESTS</m:batchId>
   </m:ingest_file>
 </soap:Body>
 </soap:Envelope>

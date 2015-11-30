@@ -1,5 +1,5 @@
 <?php
-    /**
+/**
  * This class encapsulates the building of the analysis form
  *  
  * @package default
@@ -278,7 +278,7 @@ class build_results_text2umls extends LogicException
                 if($i < 50)    
                     echo "<tr bgcolor=PapayaWhip><td>".$result[0]."</td><td>".$result[1]."</td><td>".$result[2]."</td><td>".($result[3]*100)."%</td></tr>";
                 
-                $buffer .= $result[0].",".$result[1].",".$result[2].",".$result[3]."\n";
+                $buffer .= str_replace(',',';',$result[0]).",".str_replace(',',';',$result[1]).",".$result[2].",".$result[3]."\n";
                 $i++;
             }
             
@@ -534,7 +534,7 @@ class build_filter_form_freetext extends LogicException
  */
 class build_results_freetext extends LogicException
 {
-    
+     
     private $_db_handle;
     private $_logger;
     private $_parameters;

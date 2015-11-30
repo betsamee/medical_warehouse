@@ -385,6 +385,7 @@
     </subject>
   </controlActProcess>
 </POLB_IN224200>]]></m:payload>
+<m:batchId>HL7v2TESTS</m:batchId>
   </m:ingest_file>
 </soap:Body>
 </soap:Envelope>

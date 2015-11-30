@@ -20,6 +20,7 @@ OBX|9|NM|GFR-AA*H^GFR--AFRICAN AMERICAN^GH|9|46|ML/MIN|||||F|||20060922152300|GH
 OBX|10|NM|GFR*H^GFR--NON-AFRICAN AMERICAN^GH|10|46|ML/MIN|||||F|||20060922152300|GH
 OBX|11|ST|84999.Z159||DNR||||||F||||GH
 OBX|12|NM|84999.Z174^Anion Gap||6|mmol/L|||F]]></m:payload>
+<m:batchId>HL7v2TESTS</m:batchId>
   </m:ingest_file>
 </soap:Body>
 </soap:Envelope>
