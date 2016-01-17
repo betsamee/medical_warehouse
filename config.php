@@ -9,8 +9,8 @@
     
     //Database
     $HOST = "localhost";
-    $USER = "medicalwarehouse";
-    $PASSWORD = "riv_kal";
+    $USER = "*********";
+    $PASSWORD = "******";
     $PORT = "3306";
-    $DB = "medicalwarehouse";
+    $DB = "*********";
 ?>
